@@ -1,8 +1,5 @@
 """
 Sova Health · Dynamic Campaign Data Extractor
-Auto-discovers ALL sheet tabs — no hardcoded names.
-Add a new sheet tab → run this → dashboard updates automatically.
-
 Run: python extract.py
 """
 
@@ -10,80 +7,66 @@ import requests, csv, json, io, sys, re
 from datetime import datetime
 from urllib.parse import quote
 
-# ── ONLY THIS NEEDS TO CHANGE ────────────────────────
+# ══════════════════════════════════════════════════════
+# CONFIG — only edit these 3 things
+# ══════════════════════════════════════════════════════
 SHEET_ID = "16FAQeJ50cSY6GFjC_FXANv0CoqV0dbzD90rSPxLQuj8"
+
+# ✅ ADD YOUR EXACT TAB NAMES HERE (copy-paste from Google Sheets)
+MANUAL_SHEETS = [
+    "Jan 2026",
+    "Feb 2026",
+    "March 2026",
+]
+
 OUTPUT_FILE = "data.json"
-# Skip these generic default tab names
-SKIP_SHEETS = {"Sheet1", "Sheet2", "Sheet3", "Sheet4", "Sheet5", "Sheet6"}
-# ─────────────────────────────────────────────────────
+# ══════════════════════════════════════════════════════
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
 }
 
-# ═══════════════════════════════════════════════════
-# STEP 1: AUTO-DISCOVER ALL SHEET NAMES
-# ═══════════════════════════════════════════════════
+SKIP_SHEETS = {"Sheet1", "Sheet2", "Sheet3", "Sheet4", "Sheet5", "Sheet6"}
 
-def discover_sheets_via_feeds(sheet_id: str) -> list[str] | None:
-    """Use Google Sheets Worksheets Feed API to list all tabs."""
-    url = f"https://docs.google.com/spreadsheets/d/16FAQeJ50cSY6GFjC_FXANv0CoqV0dbzD90rSPxLQuj8/"
+
+# ── SHEET DISCOVERY (tries auto first, falls back to MANUAL_SHEETS) ──
+
+def discover_via_feeds(sheet_id):
+    """Google Sheets public JSON feed."""
+    url = f"https://spreadsheets.google.com/feeds/worksheets/{sheet_id}/public/full?alt=json"
     try:
         resp = requests.get(url, headers=HEADERS, timeout=10)
         resp.raise_for_status()
         data = resp.json()
         entries = data.get("feed", {}).get("entry", [])
         names = [e["title"]["$t"] for e in entries if e.get("title", {}).get("$t")]
-        return [n for n in names if n not in SKIP_SHEETS]
+        names = [n for n in names if n not in SKIP_SHEETS]
+        if names:
+            print(f"  ✓ Auto-discovered: {', '.join(names)}")
+            return names
     except Exception as e:
-        print(f"  (feeds API: {e})")
-        return None
+        print(f"  (feeds API failed: {e})")
+    return None
 
 
-def discover_sheets_via_html(sheet_id: str) -> list[str] | None:
-    """Fallback: parse the spreadsheet HTML to find tab names."""
-    url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/edit"
-    try:
-        resp = requests.get(url, headers=HEADERS, timeout=12)
-        html = resp.text
-        # Try multiple patterns the HTML might use for sheet names
-        patterns = [
-            r'"label":"([^"]{2,60})"',
-            r'data-sheet-name="([^"]+)"',
-            r'class="docs-sheet-tab[^"]*"[^>]*title="([^"]+)"',
-        ]
-        found = []
-        for pat in patterns:
-            matches = re.findall(pat, html)
-            found.extend(matches)
-        
-        unique = list(dict.fromkeys(n for n in found if n not in SKIP_SHEETS and len(n) <= 50))
-        return unique if unique else None
-    except Exception as e:
-        print(f"  (HTML parse: {e})")
-        return None
-
-
-def discover_all_sheets(sheet_id: str) -> list[str]:
-    """Try all discovery methods; return sheet names."""
-    print("  → Method 1: Google Feeds API...")
-    names = discover_sheets_via_feeds(sheet_id)
+def get_sheet_names(sheet_id):
+    print("  → Trying auto-discovery...")
+    names = discover_via_feeds(sheet_id)
     if names:
         return names
-    
-    print("  → Method 2: HTML parsing...")
-    names = discover_sheets_via_html(sheet_id)
-    if names:
-        return names
-    
-    return []
+
+    # Fallback to manual list
+    if MANUAL_SHEETS:
+        print(f"  → Using manual list: {', '.join(MANUAL_SHEETS)}")
+        return MANUAL_SHEETS
+
+    print("  ✗ No sheet names available. Add names to MANUAL_SHEETS in extract.py")
+    sys.exit(1)
 
 
-# ═══════════════════════════════════════════════════
-# STEP 2: FETCH EACH SHEET AS CSV
-# ═══════════════════════════════════════════════════
+# ── FETCH CSV ──
 
-def fetch_csv(sheet_id: str, sheet_name: str) -> str:
+def fetch_csv(sheet_id, sheet_name):
     url = (
         f"https://docs.google.com/spreadsheets/d/{sheet_id}"
         f"/gviz/tq?tqx=out:csv&sheet={quote(sheet_name)}"
@@ -93,27 +76,24 @@ def fetch_csv(sheet_id: str, sheet_name: str) -> str:
     return resp.text
 
 
-# ═══════════════════════════════════════════════════
-# STEP 3: DYNAMIC COLUMN DETECTION
-# Maps ANY column name → standard field
-# ═══════════════════════════════════════════════════
+# ── COLUMN DETECTION ──
 
 FIELD_PATTERNS = {
-    "name":       ["campaign name", "campaign", "name", "title", "subject"],
-    "team":       ["team", "group", "category", "type"],
-    "date":       ["date", "campaign date", "sent date", "day"],
-    "cohort":     ["cohort", "audience", "list", "batch", "segment", "target"],
+    "name":       ["campaign name", "campaign", "name", "title"],
+    "team":       ["team", "group", "category"],
+    "date":       ["date", "campaign date", "sent date"],
+    "cohort":     ["cohort", "audience", "list", "segment", "batch"],
     "sent":       ["sent", "total sent", "messages sent"],
     "delivered":  ["delivered", "delivery"],
     "read":       ["read count", "reads", "opened", "opens"],
-    "read_rate":  ["read rate", "read %", "open rate", "open %", "read%"],
+    "read_rate":  ["read rate", "read %", "open rate", "read%"],
     "revenue":    ["revenue", "rev", "income", "sales", "amount", "gmv"],
     "clicks":     ["clicked count", "clicks", "link click"],
     "click_rate": ["clicked rate", "click rate", "ctr"],
     "orders":     ["order count", "orders", "conversions", "purchases"],
 }
 
-def detect_columns(headers: list[str]) -> dict[str, int]:
+def detect_columns(headers):
     h = [x.lower().strip() for x in headers]
     col_map = {}
     for field, patterns in FIELD_PATTERNS.items():
@@ -126,8 +106,7 @@ def detect_columns(headers: list[str]) -> dict[str, int]:
                 break
     return col_map
 
-
-def safe_float(val: str) -> float:
+def safe_float(val):
     if not val: return 0.0
     val = str(val).strip()
     if val.lower() in ("#ref!", "#value!", "#error!", "#n/a", "n/a", "-", "—", ""):
@@ -138,14 +117,11 @@ def safe_float(val: str) -> float:
         return 0.0
 
 
-# ═══════════════════════════════════════════════════
-# STEP 4: PARSE SHEET → CAMPAIGNS LIST
-# ═══════════════════════════════════════════════════
+# ── PARSE SHEET ──
 
-def parse_sheet(csv_text: str) -> tuple[list[dict], dict]:
+def parse_sheet(csv_text):
     reader = csv.reader(io.StringIO(csv_text))
     rows = [r for r in reader if any(c.strip() for c in r)]
-
     if not rows:
         return [], {}
 
@@ -159,11 +135,9 @@ def parse_sheet(csv_text: str) -> tuple[list[dict], dict]:
 
     headers = rows[header_idx]
     col_map = detect_columns(headers)
-
-    # Report detected columns
     detected = {f: headers[i] for f, i in col_map.items()}
 
-    def get(row: list, key: str, default="") -> str:
+    def get(row, key, default=""):
         idx = col_map.get(key, -1)
         if idx == -1 or idx >= len(row): return default
         return row[idx].strip()
@@ -196,34 +170,20 @@ def parse_sheet(csv_text: str) -> tuple[list[dict], dict]:
     return campaigns, schema
 
 
-# ═══════════════════════════════════════════════════
-# MAIN
-# ═══════════════════════════════════════════════════
+# ── MAIN ──
 
 def main():
     print("━" * 52)
-    print("  Sova Health · Dynamic Campaign Extractor")
+    print("  Sova Health · Campaign Data Extractor")
     print("━" * 52)
-    print(f"\n  Sheet ID: {SHEET_ID[:20]}...\n")
 
-    # ── Discover sheets
-    print("  [1/3] Discovering sheet tabs...")
-    sheet_names = discover_all_sheets(SHEET_ID)
+    print("\n  [1/3] Getting sheet names...")
+    sheet_names = get_sheet_names(SHEET_ID)
 
-    if not sheet_names:
-        print("\n  ✗ Could not auto-discover sheets.")
-        print("  → Make sheet public: File → Share → Anyone with link can view")
-        print("  → Or enter sheet names manually (see MANUAL_SHEETS in config)")
-        sys.exit(1)
-
-    print(f"\n  ✓ Found {len(sheet_names)} sheets: {', '.join(sheet_names)}")
-
-    # ── Fetch & parse each sheet
     print(f"\n  [2/3] Fetching {len(sheet_names)} sheets...\n")
     output = {
         "last_updated": datetime.utcnow().isoformat() + "Z",
         "sheet_id": SHEET_ID,
-        "discovered_sheets": sheet_names,
         "sheets": {}
     }
 
@@ -235,7 +195,7 @@ def main():
             campaigns, schema = parse_sheet(csv_text)
 
             if not campaigns:
-                print(f"     ⚠ No campaign rows found (empty or unrecognized format)")
+                print(f"     ⚠ No rows found — check tab name matches exactly")
                 continue
 
             key = re.sub(r'[^a-z0-9_]', '', name.lower().replace(' ', '_'))
@@ -246,33 +206,30 @@ def main():
             }
 
             total_rev = sum(c["revenue"] for c in campaigns)
-            print(f"     ✓ {len(campaigns)} campaigns | Revenue: ₹{total_rev:,.0f}")
-            print(f"     ✓ Columns detected: {', '.join(schema['detected_columns'].keys())}")
-            if schema["unmapped_headers"]:
-                print(f"     ℹ Unmapped headers: {schema['unmapped_headers']}")
+            print(f"     ✓ {len(campaigns)} campaigns | ₹{total_rev:,.0f} revenue")
+            print(f"     ✓ Columns mapped: {', '.join(schema['detected_columns'].keys())}")
             success += 1
 
         except requests.HTTPError as e:
-            print(f"     ✗ HTTP {e.response.status_code} — check sheet is public")
+            status = e.response.status_code if e.response else '?'
+            print(f"     ✗ HTTP {status} — sheet may not be public")
         except Exception as e:
             print(f"     ✗ Error: {e}")
 
-    # ── Write output
     print(f"\n  [3/3] Writing {OUTPUT_FILE}...")
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(output, f, indent=2, ensure_ascii=False)
 
-    total_camps = sum(len(s["campaigns"]) for s in output["sheets"].values())
+    total = sum(len(s["campaigns"]) for s in output["sheets"].values())
     print(f"\n{'━'*52}")
-    print(f"  ✅ Done — {total_camps} campaigns across {success} sheets")
-    print(f"  📄 Output: {OUTPUT_FILE}")
-    print(f"  📅 Timestamp: {output['last_updated']}")
+    print(f"  ✅ {total} campaigns across {success}/{len(sheet_names)} sheets")
+    print(f"  📅 {output['last_updated']}")
     print("━" * 52)
 
     if success == 0:
-        print("\n  ⚠  All sheets failed. Fix:")
-        print("  1. Open Google Sheet → File → Share → Anyone with link can view")
-        print("  2. Run: python extract.py")
+        print("\n  ✗ Nothing written. Two things to check:")
+        print("  1. Google Sheet → File → Share → Anyone with link → Viewer")
+        print("  2. MANUAL_SHEETS names must match tabs EXACTLY (case-sensitive)")
         sys.exit(1)
 
 
