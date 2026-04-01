@@ -27,7 +27,7 @@ HEADERS = {
 
 def discover_sheets_via_feeds(sheet_id: str) -> list[str] | None:
     """Use Google Sheets Worksheets Feed API to list all tabs."""
-    url = f"https://spreadsheets.google.com/feeds/worksheets/{sheet_id}/public/full?alt=json"
+    url = f"https://docs.google.com/spreadsheets/d/16FAQeJ50cSY6GFjC_FXANv0CoqV0dbzD90rSPxLQuj8/"
     try:
         resp = requests.get(url, headers=HEADERS, timeout=10)
         resp.raise_for_status()
