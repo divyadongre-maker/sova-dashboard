@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sova Health · Campaign Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#070b12;--s1:#0d1220;--s2:#111827;--s3:#161f30;
+  --border:#1c2640;--border2:#232f4a;
+  --gold:#f5a623;--gold2:#ffd166;--teal:#00c9a7;
+  --red:#ff4d6d;--blue:#4facfe;--purple:#a78bfa;--orange:#fb923c;
+  --text:#e2e8f0;--text2:#7a8aa4;--text3:#3a4a64;
+  --quiz:#f5a623;--fresh:#00c9a7;--upsell:#a78bfa;--expert:#4facfe;
+  --fd:'Syne',sans-serif;--fm:'DM Mono',monospace;--fb:'Outfit',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;line-height:1.5;min-height:100vh;overflow-x:hidden}
+
+/* HEADER */
+.hdr{background:rgba(13,18,32,0.97);border-bottom:1px solid var(--border);padding:13px 26px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;backdrop-filter:blur(20px)}
+.hdr-l{display:flex;align-items:center;gap:13px}
+.logo{width:34px;height:34px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:#000;flex-shrink:0}
+.h-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;letter-spacing:-0.3px}
+.h-sub{font-size:10px;color:var(--text2);font-family:'DM Mono',monospace;margin-top:1px}
+.hdr-r{display:flex;align-items:center;gap:10px}
+.live-pill{display:flex;align-items:center;gap:6px;background:rgba(0,201,167,0.08);border:1px solid rgba(0,201,167,0.2);border-radius:20px;padding:4px 10px;font-size:10px;color:var(--teal);font-family:'DM Mono',monospace}
+.live-dot{width:5px;height:5px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.refresh-btn{background:var(--s2);border:1px solid var(--border);border-radius:7px;color:var(--text2);padding:5px 12px;font-size:11px;cursor:pointer;font-family:'DM Mono',monospace;display:flex;align-items:center;gap:6px;transition:all 0.2s}
+.refresh-btn:hover{border-color:var(--border2);color:var(--text)}
+.refresh-btn.spin svg{animation:rotateit 0.9s linear infinite}
+@keyframes rotateit{to{transform:rotate(360deg)}}
+#last-upd{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace}
+
+/* NAV */
+.nav{background:var(--s1);border-bottom:1px solid var(--border);padding:0 26px;display:flex;align-items:center}
+.ntab{padding:11px 18px;font-size:12px;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;transition:all 0.2s;font-weight:500;white-space:nowrap}
+.ntab:hover{color:var(--text)}
+.ntab.on{color:var(--gold);border-bottom-color:var(--gold)}
+.nav-r{margin-left:auto;display:flex;align-items:center;gap:6px}
+.mgrp{display:flex;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:3px;gap:2px}
+.mtab{padding:4px 12px;border-radius:5px;font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;color:var(--text2);transition:all 0.15s;border:none;background:transparent}
+.mtab.on{background:var(--gold);color:#000;font-weight:500}
+.mtab:hover:not(.on){background:var(--border);color:var(--text)}
+
+/* MAIN */
+.main{padding:20px 26px;max-width:1600px;margin:0 auto}
+.panel{display:none}.panel.on{display:block}
+
+/* LOADING */
+#loader{position:fixed;inset:0;background:rgba(7,11,18,0.92);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:14px;transition:opacity 0.3s}
+#loader.gone{opacity:0;pointer-events:none}
+.spin-ring{width:38px;height:38px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:rotateit 0.8s linear infinite}
+.spin-txt{font-family:'DM Mono',monospace;font-size:11px;color:var(--text2)}
+
+/* ERROR BANNER */
+#err-banner{display:none;background:rgba(255,77,109,0.1);border:1px solid rgba(255,77,109,0.3);border-radius:9px;padding:12px 16px;margin-bottom:16px;font-size:12px;color:var(--red)}
+#err-banner code{font-family:'DM Mono',monospace;background:rgba(255,77,109,0.15);padding:1px 5px;border-radius:3px}
+
+/* SECTION LABEL */
+.sec{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:1.8px;margin-bottom:10px;margin-top:22px;display:flex;align-items:center;gap:8px}
+.sec::after{content:'';flex:1;height:1px;background:var(--border)}
+.sec:first-child{margin-top:0}
+
+/* KPI */
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.kpi{background:var(--s1);border:1px solid var(--border);border-radius:11px;padding:16px 17px;position:relative;overflow:hidden;transition:border-color 0.2s,transform 0.15s}
+.kpi:hover{border-color:var(--border2);transform:translateY(-1px)}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--ac,var(--gold))}
+.kpi-l{font-family:'DM Mono',monospace;font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px}
+.kpi-v{font-family:'Syne',sans-serif;font-weight:700;font-size:21px;color:var(--text);letter-spacing:-0.5px;line-height:1}
+.kpi-f{font-size:10px;color:var(--text2);margin-top:5px}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.g31{display:grid;grid-template-columns:2fr 1fr;gap:12px}
+.g13{display:grid;grid-template-columns:1fr 2fr;gap:12px}
+
+/* CARD */
+.card{background:var(--s1);border:1px solid var(--border);border-radius:11px;padding:17px 19px}
+.ct{font-family:'Syne',sans-serif;font-weight:600;font-size:13px;margin-bottom:3px}
+.cs{font-size:10px;color:var(--text2);margin-bottom:13px;font-family:'DM Mono',monospace}
+.cw{position:relative}.cw canvas{width:100%!important}
+
+/* TEAM CARDS */
+.tcards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tcard{background:var(--s1);border:1px solid var(--border);border-radius:11px;padding:15px;position:relative;overflow:hidden}
+.tcard::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--tc,var(--gold))}
+.tc-n{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:8px;color:var(--text2)}
+.tc-r{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;color:var(--text);letter-spacing:-0.5px}
+.tc-s{font-size:10px;color:var(--text2);margin-top:3px}
+.tc-ms{display:flex;justify-content:space-between;margin-top:9px;padding-top:9px;border-top:1px solid var(--border)}
+.tc-m{text-align:center}
+.tc-mv{font-family:'DM Mono',monospace;font-size:11px}
+.tc-ml{font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:0.7px;margin-top:2px}
+
+/* FUNNEL */
+.funnel{display:flex;flex-direction:column;gap:6px;padding:4px 0}
+.fs{display:flex;align-items:center;gap:9px}
+.fl{width:78px;font-size:10px;color:var(--text2);text-align:right;font-family:'DM Mono',monospace;flex-shrink:0}
+.fbw{flex:1;height:24px}
+.fb{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:9px;font-family:'DM Mono',monospace;font-size:10px;white-space:nowrap;overflow:hidden;transition:width 0.6s ease}
+.fp{margin-left:6px;font-size:9px;opacity:0.7}
+
+/* TABLE */
+.dtbl{width:100%;border-collapse:collapse}
+.dtbl th{font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--text3);padding:7px 9px;border-bottom:1px solid var(--border);text-align:left;font-weight:400;white-space:nowrap}
+.dtbl td{padding:7px 9px;border-bottom:1px solid rgba(28,38,64,0.5);font-size:11px}
+.dtbl tr:hover td{background:rgba(255,255,255,0.015)}
+.dtbl tr:last-child td{border-bottom:none}
+.nm{font-family:'DM Mono',monospace;font-size:11px}
+.tag{font-size:8px;font-family:'DM Mono',monospace;padding:2px 6px;border-radius:3px;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap}
+.bb{height:4px;border-radius:2px;display:inline-block;vertical-align:middle}
+
+/* COHORT */
+.cl{display:flex;flex-direction:column;gap:5px}
+.cr{display:flex;align-items:center;gap:8px;padding:7px 10px;background:rgba(255,255,255,0.015);border-radius:7px;border:1px solid transparent;transition:border-color 0.2s}
+.cr:hover{border-color:var(--border2)}
+.cn{flex:1;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ctr{width:90px;height:4px;background:var(--border);border-radius:2px;flex-shrink:0}
+.cfi{height:100%;border-radius:2px}
+.cv{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);width:72px;text-align:right;flex-shrink:0}
+
+/* INSIGHT */
+.ins{background:linear-gradient(135deg,rgba(245,166,35,0.05),rgba(245,166,35,0.01));border:1px solid rgba(245,166,35,0.15);border-radius:9px;padding:11px 14px;margin-top:11px;display:flex;gap:8px}
+.ins-i{font-size:14px;flex-shrink:0}
+.ins-t{font-size:11px;color:var(--text2);line-height:1.65}
+.ins-t strong{color:var(--gold);font-weight:600}
+
+/* COMPARISON */
+.cmp3{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.ccard{background:var(--s1);border:1px solid var(--border);border-radius:11px;padding:17px 19px;text-align:center}
+.cm{font-family:'DM Mono',monospace;font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px}
+.cv2{font-family:'Syne',sans-serif;font-weight:700;font-size:26px;letter-spacing:-0.5px}
+.csub{font-size:10px;color:var(--text2);margin-top:4px}
+.cdelta{display:inline-flex;align-items:center;gap:4px;margin-top:6px;font-size:11px;font-family:'DM Mono',monospace}
+.up{color:var(--teal)}.dn{color:var(--red)}.na{color:var(--text3)}
+
+/* MoM TABLE */
+.mt{width:100%;border-collapse:collapse}
+.mt th{font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--text3);padding:8px 11px;border-bottom:1px solid var(--border);text-align:right;font-weight:400}
+.mt th:first-child{text-align:left}
+.mt td{padding:8px 11px;border-bottom:1px solid rgba(28,38,64,0.4);font-size:11px;text-align:right}
+.mt td:first-child{text-align:left;font-weight:500}
+.mt tr:last-child td{border-bottom:none}
+.mt tr:hover td{background:rgba(255,255,255,0.015)}
+
+/* NO DATA */
+.nodata{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:44px;text-align:center;background:var(--s1);border:1px dashed var(--border2);border-radius:11px}
+.nodata h3{font-family:'Syne',sans-serif;font-size:14px;color:var(--text2);margin-bottom:6px}
+.nodata p{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
+
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
+.footer{text-align:center;padding:20px 26px;border-top:1px solid var(--border);margin-top:24px}
+.footer p{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3)}
+
+@media(max-width:1100px){.kpi-row,.tcards{grid-template-columns:repeat(2,1fr)}.g2,.g3,.g31,.g13,.cmp3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="loader"><div class="spin-ring"></div><div class="spin-txt">Loading campaign data...</div></div>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-l">
+    <div class="logo">SH</div>
+    <div>
+      <div class="h-title">Sova Health · Campaign Intelligence</div>
+      <div class="h-sub">LIVE DASHBOARD · DATA FROM data.json · AUTO-REFRESH 5 MIN</div>
+    </div>
+  </div>
+  <div class="hdr-r">
+    <span id="last-upd">—</span>
+    <button class="refresh-btn" id="rbtn" onclick="reloadData()">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
+        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+      </svg>Refresh
+    </button>
+    <div class="live-pill"><div class="live-dot"></div>LIVE</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="ntab on"  onclick="goTab('overview',this)">📊 Overview</div>
+  <div class="ntab"     onclick="goTab('team',this)">👥 Team Analysis</div>
+  <div class="ntab"     onclick="goTab('cohort',this)">🎯 Cohort Analysis</div>
+  <div class="ntab"     onclick="goTab('comparison',this)">⚖️ MoM Comparison</div>
+  <div class="nav-r">
+    <div class="mgrp" id="mgrp">
+      <button class="mtab"    onclick="goMonth('jan',this)">Jan</button>
+      <button class="mtab"    onclick="goMonth('feb',this)">Feb</button>
+      <button class="mtab on" onclick="goMonth('mar',this)">Mar</button>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div id="err-banner"></div>
+
+  <!-- OVERVIEW -->
+  <div class="panel on" id="tab-overview">
+    <div class="sec">Executive Summary</div>
+    <div class="kpi-row" id="kpi"></div>
+    <div class="sec">Revenue & Distribution</div>
+    <div class="g31">
+      <div class="card">
+        <div class="ct">Daily Revenue</div>
+        <div class="cs" id="ds-sub">Revenue per campaign date</div>
+        <div class="cw" style="height:210px"><canvas id="cDaily"></canvas></div>
+        <div class="ins" id="ins-daily"></div>
+      </div>
+      <div class="card">
+        <div class="ct">Team Share</div>
+        <div class="cs">Revenue wallet split</div>
+        <div class="cw" style="height:175px"><canvas id="cDonut"></canvas></div>
+        <div id="donut-leg" style="margin-top:9px;display:flex;flex-direction:column;gap:4px"></div>
+      </div>
+    </div>
+    <div class="sec">Funnel & Engagement</div>
+    <div class="g2">
+      <div class="card">
+        <div class="ct">Delivery Funnel</div>
+        <div class="cs">Sent → Delivered → Read</div>
+        <div id="funnel"></div>
+        <div class="ins" id="ins-funnel"></div>
+      </div>
+      <div class="card">
+        <div class="ct">Read Rate by Team</div>
+        <div class="cs">Avg read rate per team</div>
+        <div class="cw" style="height:175px"><canvas id="cRR"></canvas></div>
+        <div class="ins" id="ins-rr"></div>
+      </div>
+    </div>
+    <div class="sec">Campaign Leaderboard</div>
+    <div class="card">
+      <div class="ct">All Campaigns · Ranked by Revenue</div>
+      <div class="cs" id="tbl-sub"></div>
+      <div style="overflow-x:auto"><table class="dtbl" id="ctbl"></table></div>
+    </div>
+  </div>
+
+  <!-- TEAM -->
+  <div class="panel" id="tab-team">
+    <div class="sec">Team Performance Summary</div>
+    <div class="tcards" id="tcards"></div>
+    <div class="sec">Team Deep Dive</div>
+    <div class="g2">
+      <div class="card">
+        <div class="ct">Revenue by Team</div>
+        <div class="cs">Absolute contribution</div>
+        <div class="cw" style="height:210px"><canvas id="cTRev"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="ct">Revenue per 1,000 Sent (RPM)</div>
+        <div class="cs">True efficiency — yield per message</div>
+        <div class="cw" style="height:210px"><canvas id="cRPM"></canvas></div>
+        <div class="ins" id="ins-rpm"></div>
+      </div>
+    </div>
+    <div class="g2" style="margin-top:12px">
+      <div class="card">
+        <div class="ct">Campaigns per Team</div>
+        <div class="cs">Volume dispatched</div>
+        <div class="cw" style="height:195px"><canvas id="cCC"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="ct">Avg Revenue per Campaign</div>
+        <div class="cs">Revenue yield per campaign fired</div>
+        <div class="cw" style="height:195px"><canvas id="cAR"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COHORT -->
+  <div class="panel" id="tab-cohort">
+    <div class="sec">Cohort Revenue Ranking</div>
+    <div class="g13">
+      <div class="card" style="overflow-y:auto;max-height:420px">
+        <div class="ct">All Cohorts · Ranked</div>
+        <div class="cs">Audience segments by value</div>
+        <div class="cl" id="cohlist"></div>
+      </div>
+      <div class="card">
+        <div class="ct">Top 8 Cohorts</div>
+        <div class="cs">Revenue distribution</div>
+        <div class="cw" style="height:350px"><canvas id="cCoh"></canvas></div>
+      </div>
+    </div>
+    <div class="sec">Cohort Performance Table</div>
+    <div class="card">
+      <div class="ct">Full Cohort Metrics</div>
+      <div class="cs">Revenue · Campaigns · Read Rate · Efficiency</div>
+      <div style="overflow-x:auto"><table class="dtbl" id="cohtbl"></table></div>
+    </div>
+  </div>
+
+  <!-- COMPARISON -->
+  <div class="panel" id="tab-comparison">
+    <div class="sec">Month-on-Month Revenue Summary</div>
+    <div class="cmp3" id="cmpkpi"></div>
+    <div class="sec">Trend & Growth Analysis</div>
+    <div class="g2">
+      <div class="card">
+        <div class="ct">Monthly Revenue Trend</div>
+        <div class="cs">Q1 2026 · Jan → Feb → Mar</div>
+        <div class="cw" style="height:215px"><canvas id="cTrend"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="ct">Team Revenue · MoM</div>
+        <div class="cs">Team breakdown across all 3 months</div>
+        <div class="cw" style="height:215px"><canvas id="cTMom"></canvas></div>
+      </div>
+    </div>
+    <div class="sec">Full KPI Comparison Table</div>
+    <div class="card">
+      <div class="ct">Jan vs Feb vs Mar · All Metrics + Δ Delta</div>
+      <div class="cs">Complete month-on-month comparison</div>
+      <div style="overflow-x:auto"><table class="mt" id="momtbl"></table></div>
+    </div>
+    <div class="sec">Engagement Trends</div>
+    <div class="g2">
+      <div class="card">
+        <div class="ct">Read Rate Trend by Team</div>
+        <div class="cs">Engagement quality MoM</div>
+        <div class="cw" style="height:215px"><canvas id="cRTrend"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="ct">Campaign Volume Trend</div>
+        <div class="cs">Total campaigns per month</div>
+        <div class="cw" style="height:215px"><canvas id="cVol"></canvas></div>
+      </div>
+    </div>
+    <div class="sec">Q1 McKinsey Insights</div>
+    <div class="g3" id="q1ins"></div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>SOVA HEALTH · CAMPAIGN INTELLIGENCE · POWERED BY data.json · RUN extract.py TO REFRESH</p>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// CONFIG & STATE
+// ═══════════════════════════════════════
+const MC = { jan:'#4facfe', feb:'#a78bfa', mar:'#f5a623' };
+const ML = { jan:'January 2026', feb:'February 2026', mar:'March 2026' };
+
+const TC = {
+  'Quiz':               { bg:'#f5a623', lt:'rgba(245,166,35,0.14)', bd:'rgba(245,166,35,0.5)' },
+  'Fresh':              { bg:'#00c9a7', lt:'rgba(0,201,167,0.14)',  bd:'rgba(0,201,167,0.5)'  },
+  'Upsell':             { bg:'#a78bfa', lt:'rgba(167,139,250,0.14)',bd:'rgba(167,139,250,0.5)'},
+  'Expert Unconverted': { bg:'#4facfe', lt:'rgba(79,172,254,0.14)', bd:'rgba(79,172,254,0.5)' },
+};
+function tc(t,k='bg'){ return (TC[t]||{bg:'#7a8aa4',lt:'rgba(122,138,164,0.14)',bd:'rgba(122,138,164,0.4)'})[k]; }
+
+const S = { data:{jan:[],feb:[],mar:[]}, month:'mar', tab:'overview', charts:{} };
+
+// ═══════════════════════════════════════
+// DATA LOADING — reads data.json
+// ═══════════════════════════════════════
+async function reloadData() {
+  const btn = document.getElementById('rbtn');
+  btn.classList.add('spin');
+  showLoader();
+  try {
+    // Cache-bust so we always get the latest
+    const res = await fetch('data.json?v=' + Date.now());
+    if (!res.ok) throw new Error(`HTTP ${res.status} — make sure data.json exists`);
+    const json = await res.json();
+    S.data.jan = json.sheets?.jan || [];
+    S.data.feb = json.sheets?.feb || [];
+    S.data.mar = json.sheets?.mar || [];
+    const ts = json.last_updated ? new Date(json.last_updated) : new Date();
+    document.getElementById('last-upd').textContent =
+      'Data from ' + ts.toLocaleDateString('en-IN',{day:'numeric',month:'short'}) +
+      ' ' + ts.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+    hideErr();
+    render();
+  } catch(e) {
+    showErr(e.message);
+    render(); // still render with empty data
+  } finally {
+    hideLoader();
+    btn.classList.remove('spin');
+  }
+}
+
+// ═══════════════════════════════════════
+// CHART HELPERS
+// ═══════════════════════════════════════
+function dc(id){ if(S.charts[id]){S.charts[id].destroy();delete S.charts[id];} }
+function rc(id,cfg){ dc(id); S.charts[id]=new Chart(document.getElementById(id),cfg); }
+const sx=()=>({grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#3a4a64',font:{family:'DM Mono',size:9}}});
+const sy=(cb)=>({grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#3a4a64',font:{family:'DM Mono',size:9},callback:cb||undefined}});
+
+// ═══════════════════════════════════════
+// DATA HELPERS
+// ═══════════════════════════════════════
+function cur(){ return S.data[S.month]||[]; }
+function fmt(n,p='₹'){ if(n>=100000)return p+(n/100000).toFixed(2)+'L'; if(n>=1000)return p+Math.round(n/1000)+'K'; return p+Math.round(n).toLocaleString('en-IN'); }
+function full(n){ return '₹'+Math.round(n).toLocaleString('en-IN'); }
+function pct(a,b){ return b?((a-b)/b*100).toFixed(1):null; }
+function avg(a){ return a.length?a.reduce((s,v)=>s+v,0)/a.length:0; }
+
+function teamStats(data){
+  const t={};
+  data.forEach(d=>{
+    if(!t[d.team])t[d.team]={rev:0,sent:0,del:0,camps:0,rrs:[]};
+    t[d.team].rev+=d.revenue; t[d.team].sent+=d.sent;
+    t[d.team].del+=d.delivered; t[d.team].camps++;
+    if(d.read_rate>0)t[d.team].rrs.push(d.read_rate);
+  });
+  return t;
+}
+function cohortStats(data){
+  const c={};
+  data.forEach(d=>{
+    const k=d.cohort||'Untagged';
+    if(!c[k])c[k]={rev:0,camps:0,sent:0,rrs:[],team:d.team};
+    c[k].rev+=d.revenue; c[k].camps++; c[k].sent+=d.sent;
+    if(d.read_rate>0)c[k].rrs.push(d.read_rate);
+  });
+  return c;
+}
+function dayStats(data){
+  const d={};
+  data.forEach(r=>{
+    const day=(r.date||'').split('-').pop().replace(/^0/,'')||'?';
+    if(!d[day])d[day]={rev:0,camps:0};
+    d[day].rev+=r.revenue; d[day].camps++;
+  });
+  return d;
+}
+
+// ═══════════════════════════════════════
+// RENDER OVERVIEW
+// ═══════════════════════════════════════
+function renderOverview(data){
+  const lbl=ML[S.month]; const m=S.month.charAt(0).toUpperCase()+S.month.slice(1);
+  const totalRev=data.reduce((s,d)=>s+d.revenue,0);
+  const totalSent=data.reduce((s,d)=>s+d.sent,0);
+  const totalDel=data.reduce((s,d)=>s+d.delivered,0);
+  const vrr=data.filter(d=>d.read_rate>0).map(d=>d.read_rate);
+  const avgRR=avg(vrr);
+  const days=dayStats(data);
+  const bestDay=Object.entries(days).sort((a,b)=>b[1].rev-a[1].rev)[0];
+  const ts=teamStats(data);
+  const topTeam=Object.entries(ts).sort((a,b)=>b[1].rev-a[1].rev)[0];
+
+  // KPIs
+  document.getElementById('kpi').innerHTML=`
+    <div class="kpi" style="--ac:var(--gold)"><div class="kpi-l">Total Revenue</div><div class="kpi-v">${full(totalRev)}</div><div class="kpi-f">${data.length} campaigns · ${lbl}</div></div>
+    <div class="kpi" style="--ac:var(--teal)"><div class="kpi-l">Messages Sent</div><div class="kpi-v">${totalSent.toLocaleString('en-IN')}</div><div class="kpi-f">${totalDel.toLocaleString('en-IN')} delivered</div></div>
+    <div class="kpi" style="--ac:var(--blue)"><div class="kpi-l">Avg Read Rate</div><div class="kpi-v">${avgRR.toFixed(1)}%</div><div class="kpi-f">vs 35% WA benchmark ↑</div></div>
+    <div class="kpi" style="--ac:var(--purple)"><div class="kpi-l">Best Day</div><div class="kpi-v">${bestDay?full(bestDay[1].rev):'—'}</div><div class="kpi-f">${bestDay?m+' '+bestDay[0]+' · '+bestDay[1].camps+' camps':'—'}</div></div>
+    <div class="kpi" style="--ac:var(--orange)"><div class="kpi-l">Top Team</div><div class="kpi-v" style="font-size:16px;color:${topTeam?tc(topTeam[0]):'var(--text2)'}">${topTeam?topTeam[0]:'—'}</div><div class="kpi-f">${topTeam?full(topTeam[1].rev)+' · '+Math.round(topTeam[1].rev/(totalRev||1)*100)+'% share':'—'}</div></div>`;
+
+  // Daily Revenue
+  dc('cDaily');
+  const dKeys=Object.keys(days).sort((a,b)=>+a-+b);
+  const dRevs=dKeys.map(d=>days[d].rev);
+  const maxDR=Math.max(...dRevs,1);
+  document.getElementById('ds-sub').textContent=`Revenue per date · Total = ${full(totalRev)} · ${lbl}`;
+  rc('cDaily',{type:'bar',data:{labels:dKeys.map(d=>m+' '+d),datasets:[{data:dRevs,backgroundColor:dRevs.map(r=>r===maxDR?'#f5a623':r>maxDR*0.5?'rgba(0,201,167,0.75)':'rgba(42,54,82,0.9)'),borderRadius:5,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>full(c.raw)}}},scales:{x:sx(),y:{...sy(v=>fmt(v))}}}});
+  document.getElementById('ins-daily').innerHTML=`<div class="ins-i">💡</div><div class="ins-t"><strong>Peak Day ${bestDay?m+' '+bestDay[0]:'—'}:</strong> ${bestDay?full(bestDay[1].rev):''} — ${bestDay?Math.round(bestDay[1].rev/(totalRev||1)*100)+'% of monthly revenue':''} in ${bestDay?bestDay[1].camps+' campaigns':'—'}. Replicate this campaign cluster.</div>`;
+
+  // Donut
+  dc('cDonut');
+  const tArr=Object.entries(ts).sort((a,b)=>b[1].rev-a[1].rev);
+  rc('cDonut',{type:'doughnut',data:{labels:tArr.map(([t])=>t),datasets:[{data:tArr.map(([,v])=>v.rev),backgroundColor:tArr.map(([t])=>tc(t)),borderWidth:2,borderColor:'#0d1220',hoverOffset:5}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.label+': '+full(c.raw)}}}}});
+  document.getElementById('donut-leg').innerHTML=tArr.map(([t,v])=>
+    `<div style="display:flex;align-items:center;gap:6px;font-size:10px"><div style="width:7px;height:7px;border-radius:2px;background:${tc(t)};flex-shrink:0"></div><span style="color:var(--text2)">${t}</span><span style="margin-left:auto;font-family:'DM Mono',monospace">${Math.round(v.rev/(totalRev||1)*100)}%</span></div>`).join('');
+
+  // Funnel
+  const tS=data.reduce((s,d)=>s+d.sent,0);
+  const tD=data.reduce((s,d)=>s+d.delivered,0);
+  const tR=data.reduce((s,d)=>s+d.read,0);
+  const fSteps=[{l:'SENT',v:tS,p:100,c:'#2a3650'},{l:'DELIVERED',v:tD,p:tS?Math.round(tD/tS*100):0,c:'#4facfe'},{l:'READ',v:tR,p:tS?Math.round(tR/tS*100):0,c:'#f5a623'}];
+  document.getElementById('funnel').innerHTML='<div class="funnel">'+fSteps.map(f=>`<div class="fs"><div class="fl">${f.l}</div><div class="fbw"><div class="fb" style="width:${f.p}%;background:${f.c}22;border:1px solid ${f.c}44"><span style="color:${f.c}">${f.v.toLocaleString('en-IN')}</span><span class="fp" style="color:${f.c}">${f.p}%</span></div></div></div>`).join('')+'</div>';
+  const drp=tS?100-Math.round(tD/tS*100):0;
+  document.getElementById('ins-funnel').innerHTML=`<div class="ins-i">⚠️</div><div class="ins-t"><strong>${drp}% delivery drop-off</strong> — ${(tS-tD).toLocaleString('en-IN')} messages undelivered. ${drp>25?'Critical — escalate with BSP on DND filtering & template health.':'Within normal range. Monitor weekly.'}</div>`;
+
+  // Read Rate
+  dc('cRR');
+  const rrT=Object.entries(ts).map(([t,v])=>({t,rr:v.rrs.length?avg(v.rrs):0})).sort((a,b)=>b.rr-a.rr);
+  rc('cRR',{type:'bar',data:{labels:rrT.map(d=>d.t),datasets:[{data:rrT.map(d=>+d.rr.toFixed(1)),backgroundColor:rrT.map(d=>tc(d.t,'lt')),borderColor:rrT.map(d=>tc(d.t)),borderWidth:2,borderRadius:5,borderSkipped:false}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw+'%'}}},scales:{x:{...sx(),max:80,ticks:{...sx().ticks,callback:v=>v+'%'}},y:{grid:{display:false},ticks:{color:'#7a8aa4',font:{family:'DM Mono',size:10}}}}}});
+  const topRR=rrT[0];
+  document.getElementById('ins-rr').innerHTML=`<div class="ins-i">🔍</div><div class="ins-t"><strong>${topRR?.t||'—'} leads on read rate (${topRR?.rr.toFixed(1)||0}%)</strong>. High read rate signals warm audience but cross-check with RPM for true ROI.</div>`;
+
+  // Table
+  const sorted=[...data].sort((a,b)=>b.revenue-a.revenue);
+  const maxR=sorted[0]?.revenue||1;
+  document.getElementById('tbl-sub').textContent=`${data.length} campaigns · ${lbl} · sorted by revenue`;
+  document.getElementById('ctbl').innerHTML=`<thead><tr><th>#</th><th>Campaign</th><th>Team</th><th>Date</th><th>Cohort</th><th style="text-align:right">Sent</th><th style="text-align:right">Del.</th><th style="text-align:right">Read%</th><th style="text-align:right">Revenue</th><th>Bar</th></tr></thead><tbody>`+
+    sorted.map((d,i)=>{const cl=tc(d.team);const bw=Math.round(d.revenue/maxR*100);return`<tr>
+      <td class="nm" style="color:var(--text3)">${i+1}</td>
+      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${d.name}</td>
+      <td><span class="tag" style="background:${cl}22;color:${cl};border:1px solid ${cl}44">${d.team}</span></td>
+      <td class="nm" style="color:var(--text2)">${(d.date||'').slice(5)||d.date}</td>
+      <td style="font-size:10px;color:var(--text2);max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${d.cohort}</td>
+      <td class="nm" style="text-align:right">${d.sent.toLocaleString('en-IN')}</td>
+      <td class="nm" style="text-align:right">${d.delivered.toLocaleString('en-IN')}</td>
+      <td class="nm" style="text-align:right">${d.read_rate>0?d.read_rate.toFixed(1)+'%':'—'}</td>
+      <td class="nm" style="text-align:right;color:${d.revenue>20000?'var(--gold)':d.revenue>5000?'var(--text)':'var(--text3)'}">${full(d.revenue)}</td>
+      <td><div class="bb" style="width:${Math.max(bw,2)}px;background:${cl};opacity:0.8"></div></td>
+    </tr>`;}).join('')+'</tbody>';
+}
+
+// ═══════════════════════════════════════
+// RENDER TEAM
+// ═══════════════════════════════════════
+function renderTeam(data){
+  const ts=teamStats(data);
+  const totalRev=data.reduce((s,d)=>s+d.revenue,0);
+  const teams=Object.keys(ts);
+
+  document.getElementById('tcards').innerHTML=teams.map(t=>{
+    const v=ts[t];const cl=tc(t);
+    const rpm=v.sent?Math.round(v.rev/v.sent*1000):0;
+    const ar=v.rrs.length?avg(v.rrs):0;
+    return`<div class="tcard" style="--tc:${cl}">
+      <div class="tc-n">${t}</div>
+      <div class="tc-r">${full(v.rev)}</div>
+      <div class="tc-s">${Math.round(v.rev/(totalRev||1)*100)}% of total · ${v.camps} campaigns</div>
+      <div class="tc-ms">
+        <div class="tc-m"><div class="tc-mv">${v.sent.toLocaleString('en-IN')}</div><div class="tc-ml">Sent</div></div>
+        <div class="tc-m"><div class="tc-mv">${v.camps?full(v.rev/v.camps):'—'}</div><div class="tc-ml">Rev/Camp</div></div>
+        <div class="tc-m"><div class="tc-mv">${ar.toFixed(1)}%</div><div class="tc-ml">Read Rate</div></div>
+        <div class="tc-m"><div class="tc-mv" style="color:${cl}">₹${rpm}</div><div class="tc-ml">RPM</div></div>
+      </div>
+    </div>`;}).join('');
+
+  dc('cTRev');
+  rc('cTRev',{type:'bar',data:{labels:teams,datasets:[{data:teams.map(t=>ts[t].rev),backgroundColor:teams.map(t=>tc(t,'lt')),borderColor:teams.map(t=>tc(t)),borderWidth:2,borderRadius:6,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>full(c.raw)}}},scales:{x:sx(),y:sy(v=>fmt(v))}}});
+
+  dc('cRPM');
+  const rpmArr=teams.map(t=>({t,rpm:ts[t].sent?Math.round(ts[t].rev/ts[t].sent*1000):0})).sort((a,b)=>b.rpm-a.rpm);
+  rc('cRPM',{type:'bar',data:{labels:rpmArr.map(d=>d.t),datasets:[{data:rpmArr.map(d=>d.rpm),backgroundColor:rpmArr.map(d=>tc(d.t,'lt')),borderColor:rpmArr.map(d=>tc(d.t)),borderWidth:2,borderRadius:6,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'₹'+c.raw+' per 1K sent'}}},scales:{x:sx(),y:sy(v=>'₹'+v)}}});
+  const top=rpmArr[0];
+  document.getElementById('ins-rpm').innerHTML=`<div class="ins-i">🏆</div><div class="ins-t"><strong>${top?.t||'—'} wins on efficiency: ₹${top?.rpm||0} RPM</strong>. Scale this team's audience for compounding returns — small list, outsized yield.</div>`;
+
+  dc('cCC');
+  rc('cCC',{type:'doughnut',data:{labels:teams,datasets:[{data:teams.map(t=>ts[t].camps),backgroundColor:teams.map(t=>tc(t)),borderWidth:2,borderColor:'#0d1220',hoverOffset:4}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{labels:{color:'#7a8aa4',font:{size:9,family:'DM Mono'},boxWidth:8,padding:10}},tooltip:{callbacks:{label:c=>c.label+': '+c.raw+' campaigns'}}}}});
+
+  dc('cAR');
+  const arArr=teams.map(t=>({t,ar:ts[t].camps?Math.round(ts[t].rev/ts[t].camps):0})).sort((a,b)=>b.ar-a.ar);
+  rc('cAR',{type:'bar',data:{labels:arArr.map(d=>d.t),datasets:[{data:arArr.map(d=>d.ar),backgroundColor:arArr.map(d=>tc(d.t,'lt')),borderColor:arArr.map(d=>tc(d.t)),borderWidth:2,borderRadius:6,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>full(c.raw)}}},scales:{x:sx(),y:sy(v=>fmt(v))}}});
+}
+
+// ═══════════════════════════════════════
+// RENDER COHORT
+// ═══════════════════════════════════════
+function renderCohort(data){
+  const cs=cohortStats(data);
+  const sorted=Object.entries(cs).filter(([,v])=>v.rev>0).sort((a,b)=>b[1].rev-a[1].rev);
+  const maxR=sorted[0]?.[1]?.rev||1;
+  const totalRev=sorted.reduce((s,[,v])=>s+v.rev,0);
+
+  document.getElementById('cohlist').innerHTML=sorted.map(([name,v])=>{
+    const cl=tc(v.team);const bw=Math.round(v.rev/maxR*100);
+    return`<div class="cr"><div class="cn" title="${name}">${name}</div><div class="ctr"><div class="cfi" style="width:${bw}%;background:${cl}"></div></div><div class="cv">${full(v.rev)}</div><span class="tag" style="background:${cl}22;color:${cl};border:1px solid ${cl}44">${v.team.substring(0,6)}</span></div>`;}).join('');
+
+  dc('cCoh');
+  const top8=sorted.slice(0,8);
+  rc('cCoh',{type:'bar',data:{labels:top8.map(([n])=>n.length>24?n.slice(0,24)+'…':n),datasets:[{data:top8.map(([,v])=>v.rev),backgroundColor:top8.map(([,v])=>tc(v.team,'lt')),borderColor:top8.map(([,v])=>tc(v.team)),borderWidth:2,borderRadius:5,borderSkipped:false}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>full(c.raw)}}},scales:{x:{...sx(),ticks:{...sx().ticks,callback:v=>fmt(v)}},y:{grid:{display:false},ticks:{color:'#7a8aa4',font:{family:'DM Mono',size:9}}}}}});
+
+  document.getElementById('cohtbl').innerHTML=`<thead><tr><th>Cohort</th><th>Team</th><th style="text-align:right">Revenue</th><th style="text-align:right">Share</th><th style="text-align:right">Camps</th><th style="text-align:right">Avg Sent</th><th style="text-align:right">Avg Read%</th><th style="text-align:right">Rev/Camp</th></tr></thead><tbody>`+
+    sorted.map(([name,v])=>{
+      const cl=tc(v.team);
+      return`<tr>
+        <td style="font-size:11px">${name}</td>
+        <td><span class="tag" style="background:${cl}22;color:${cl};border:1px solid ${cl}44">${v.team.substring(0,6)}</span></td>
+        <td class="nm" style="text-align:right;color:${v.rev>20000?'var(--gold)':'var(--text)'}">${full(v.rev)}</td>
+        <td class="nm" style="text-align:right;color:var(--text2)">${Math.round(v.rev/(totalRev||1)*100)}%</td>
+        <td class="nm" style="text-align:right">${v.camps}</td>
+        <td class="nm" style="text-align:right">${v.camps?Math.round(v.sent/v.camps).toLocaleString('en-IN'):'—'}</td>
+        <td class="nm" style="text-align:right">${v.rrs.length?avg(v.rrs).toFixed(1)+'%':'—'}</td>
+        <td class="nm" style="text-align:right">${v.camps?full(v.rev/v.camps):'—'}</td>
+      </tr>`;}).join('')+'</tbody>';
+}
+
+// ═══════════════════════════════════════
+// RENDER COMPARISON
+// ═══════════════════════════════════════
+function renderComparison(){
+  const D=S.data;
+  const keys=['jan','feb','mar'];
+  const has=k=>D[k].length>0;
+  const mRev=k=>D[k].reduce((s,d)=>s+d.revenue,0);
+  const mSent=k=>D[k].reduce((s,d)=>s+d.sent,0);
+  const mDel=k=>D[k].reduce((s,d)=>s+d.delivered,0);
+  const mRR=k=>{const v=D[k].filter(d=>d.read_rate>0).map(d=>d.read_rate);return v.length?avg(v):0;};
+  const revs=keys.map(mRev);
+
+  // Summary KPIs
+  document.getElementById('cmpkpi').innerHTML=keys.map((k,i)=>{
+    const rev=revs[i];const prev=i>0?revs[i-1]:null;const cl=MC[k];
+    const delta=i>0&&has(keys[i-1])&&has(k)?pct(rev,prev):null;
+    const dhtml=delta!==null?`<div class="cdelta">${+delta>=0?`<span class="up">▲ ${delta}%</span>`:`<span class="dn">▼ ${Math.abs(delta)}%</span>`} vs prev</div>`:'';
+    return`<div class="ccard" style="border-top:2px solid ${cl}">
+      <div class="cm">${ML[k]}</div>
+      <div class="cv2" style="color:${has(k)?cl:'var(--text3)'}">${has(k)?full(rev):'No Data'}</div>
+      <div class="csub">${has(k)?D[k].length+' camps · '+mSent(k).toLocaleString('en-IN')+' sent':''}</div>
+      ${dhtml}
+    </div>`;}).join('');
+
+  // Trend
+  dc('cTrend');
+  rc('cTrend',{type:'line',data:{labels:keys.map(k=>ML[k]),datasets:[{label:'Revenue',data:keys.map((k,i)=>has(k)?revs[i]:null),borderColor:'#f5a623',backgroundColor:'rgba(245,166,35,0.06)',pointBackgroundColor:keys.map(k=>has(k)?'#f5a623':'#2a3650'),pointRadius:keys.map(k=>has(k)?7:4),fill:true,tension:0.4,spanGaps:false,borderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw?full(c.raw):'No data'}}},scales:{x:sx(),y:sy(v=>fmt(v))}}});
+
+  // Team MoM
+  dc('cTMom');
+  const allTeams=[...new Set(Object.values(D).flat().map(d=>d.team))];
+  rc('cTMom',{type:'bar',data:{labels:keys.map(k=>ML[k]),datasets:allTeams.map(t=>({label:t,data:keys.map((k,i)=>has(k)?D[k].filter(d=>d.team===t).reduce((s,d)=>s+d.revenue,0):null),backgroundColor:tc(t,'lt'),borderColor:tc(t),borderWidth:2,borderRadius:4}))},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#7a8aa4',font:{size:9,family:'DM Mono'},boxWidth:8,padding:9}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+full(c.raw||0)}}},scales:{x:sx(),y:sy(v=>fmt(v))}}});
+
+  // MoM Table
+  const dlt=(a,b)=>{if(!a||!b)return`<span class="na">—</span>`;const d=pct(a,b);return+d>=0?`<span class="up">▲${d}%</span>`:`<span class="dn">▼${Math.abs(d)}%</span>`;};
+  const rows=[
+    ['Total Revenue',       keys.map(k=>has(k)?full(mRev(k)):'—'), [dlt(mRev('feb'),mRev('jan')), dlt(mRev('mar'),mRev('feb'))]],
+    ['Campaigns',           keys.map(k=>has(k)?D[k].length:'—'), ['—','—']],
+    ['Messages Sent',       keys.map(k=>has(k)?mSent(k).toLocaleString('en-IN'):'—'), [dlt(mSent('feb'),mSent('jan')), dlt(mSent('mar'),mSent('feb'))]],
+    ['Delivered',           keys.map(k=>has(k)?mDel(k).toLocaleString('en-IN'):'—'), ['—','—']],
+    ['Delivery Rate',       keys.map(k=>{const s=mSent(k),d=mDel(k);return has(k)&&s?Math.round(d/s*100)+'%':'—';}), ['—','—']],
+    ['Avg Read Rate',       keys.map(k=>has(k)?mRR(k).toFixed(1)+'%':'—'), [dlt(mRR('feb'),mRR('jan')), dlt(mRR('mar'),mRR('feb'))]],
+    ['Rev per Campaign',    keys.map(k=>{const c=D[k].length,r=mRev(k);return has(k)&&c?full(r/c):'—';}), ['—','—']],
+    ['RPM (Rev/1K Sent)',   keys.map(k=>{const s=mSent(k),r=mRev(k);return has(k)&&s?'₹'+Math.round(r/s*1000):'—';}), [dlt(mSent('feb')?mRev('feb')/mSent('feb'):null, mSent('jan')?mRev('jan')/mSent('jan'):null), dlt(mSent('mar')?mRev('mar')/mSent('mar'):null, mSent('feb')?mRev('feb')/mSent('feb'):null)]],
+  ];
+  document.getElementById('momtbl').innerHTML=`<thead><tr><th>Metric</th>${keys.map(k=>`<th style="text-align:right;color:${MC[k]}">${ML[k]}</th>`).join('')}<th style="text-align:right">Jan→Feb Δ</th><th style="text-align:right">Feb→Mar Δ</th></tr></thead><tbody>`+
+    rows.map(([lbl,vals,deltas])=>`<tr><td>${lbl}</td>${vals.map(v=>`<td class="nm" style="text-align:right">${v}</td>`).join('')}${deltas.map(d=>`<td class="nm" style="text-align:right">${d}</td>`).join('')}</tr>`).join('')+'</tbody>';
+
+  // Read Rate Trend
+  dc('cRTrend');
+  rc('cRTrend',{type:'line',data:{labels:keys.map(k=>ML[k]),datasets:allTeams.map(t=>({label:t,data:keys.map((k,i)=>{if(!has(k))return null;const v=D[k].filter(d=>d.team===t&&d.read_rate>0).map(d=>d.read_rate);return v.length?+avg(v).toFixed(1):null;}),borderColor:tc(t),backgroundColor:tc(t,'lt'),pointRadius:5,tension:0.3,borderWidth:2,spanGaps:true}))},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#7a8aa4',font:{size:9,family:'DM Mono'},boxWidth:8,padding:9}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+(c.raw||0)+'%'}}},scales:{x:sx(),y:{...sy(v=>v+'%'),min:0,max:80}}}});
+
+  // Volume Trend
+  dc('cVol');
+  rc('cVol',{type:'bar',data:{labels:keys.map(k=>ML[k]),datasets:[{label:'Campaigns',data:keys.map((k,i)=>has(k)?D[k].length:null),backgroundColor:keys.map(k=>MC[k]+'30'),borderColor:keys.map(k=>MC[k]),borderWidth:2,borderRadius:6,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw+' campaigns'}}},scales:{x:sx(),y:sy()}}});
+
+  // Q1 Insights
+  const activeKeys=keys.filter(has);
+  const totalQ1=activeKeys.reduce((s,k)=>s+mRev(k),0);
+  const bestMo=activeKeys.sort((a,b)=>mRev(b)-mRev(a))[0];
+  const allCamps=Object.values(D).flat();
+  const topCamp=allCamps.sort((a,b)=>b.revenue-a.revenue)[0];
+  const teamQ1={};allCamps.forEach(d=>{teamQ1[d.team]=(teamQ1[d.team]||0)+d.revenue;});
+  const topTeam=Object.entries(teamQ1).sort((a,b)=>b[1]-a[1])[0];
+
+  document.getElementById('q1ins').innerHTML=[
+    {i:'📈',t:'Q1 Revenue',b:`<strong>${full(totalQ1)}</strong> across ${activeKeys.length} active month(s). ${bestMo?`Best: <strong>${ML[bestMo]}</strong> at ${full(mRev(bestMo))}`:''}.`},
+    {i:'🥇',t:'Top Campaign Q1',b:`<strong>"${(topCamp?.name||'').substring(0,48)}"</strong> — ${full(topCamp?.revenue||0)}. ${topCamp?.team||''} team. Replicate this template.`},
+    {i:'💼',t:'Q1 Team Leader',b:`<strong>${topTeam?.[0]||'—'}</strong> leads Q1 with ${full(topTeam?.[1]||0)}. ${activeKeys.length<3?'Add missing months in Google Sheets for full Q1 view.':'Review team resource allocation vs revenue concentration.'}` },
+  ].map(x=>`<div class="card"><div class="ct">${x.i} ${x.t}</div><div class="ins" style="margin-top:9px"><div class="ins-t" style="font-size:11px;line-height:1.7">${x.b}</div></div></div>`).join('');
+}
+
+// ═══════════════════════════════════════
+// ROUTING
+// ═══════════════════════════════════════
+function render(){
+  const data=cur();
+  if(S.tab==='overview') renderOverview(data);
+  else if(S.tab==='team') renderTeam(data);
+  else if(S.tab==='cohort') renderCohort(data);
+  else if(S.tab==='comparison') renderComparison();
+}
+
+function goTab(tab,el){
+  document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.getElementById('tab-'+tab).classList.add('on');
+  S.tab=tab;
+  document.getElementById('mgrp').style.display=tab==='comparison'?'none':'';
+  render();
+}
+function goMonth(m,el){
+  document.querySelectorAll('.mtab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  S.month=m;
+  render();
+}
+
+// ═══════════════════════════════════════
+// UI HELPERS
+// ═══════════════════════════════════════
+function showLoader(){ document.getElementById('loader').classList.remove('gone'); }
+function hideLoader(){ document.getElementById('loader').classList.add('gone'); }
+function showErr(msg){
+  const b=document.getElementById('err-banner');
+  b.style.display='block';
+  b.innerHTML=`⚠️ Could not load <code>data.json</code>: ${msg}<br><small>Run <code>python extract.py</code> to generate data.json, then place it in the same folder as this HTML file.</small>`;
+}
+function hideErr(){ document.getElementById('err-banner').style.display='none'; }
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+reloadData();
+setInterval(reloadData, 5 * 60 * 1000);
+</script>
+</body>
+</html>
