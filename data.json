@@ -1,9 +1,17 @@
 {
-  "last_updated": "2026-04-01T20:54:24.215832Z",
+  "last_updated": "2026-04-02T05:52:18.180761Z",
   "sheet_id": "16FAQeJ50cSY6GFjC_FXANv0CoqV0dbzD90rSPxLQuj8",
+  "sheet_order": [
+    "jan_2026",
+    "feb_2026",
+    "march_2026"
+  ],
   "sheets": {
     "jan_2026": {
       "name": "Jan 2026",
+      "key": "jan_2026",
+      "year": 2026,
+      "month_num": 1,
       "campaigns": [
         {
           "name": "1st Dec Webinar Campaign 2026 Expert Unconverted",
@@ -1053,18 +1061,21 @@
           "read_rate": "Read Rate",
           "revenue": "Original_Revenue",
           "orders": "Original_Orders"
-        },
-        "unmapped_headers": [
-          "Read",
-          "Unique_Orders",
-          "Unique_Revenue",
-          "Revenue_Lost_to_Dupes",
-          "Unique_Order_IDs"
-        ]
+        }
+      },
+      "summary": {
+        "total_revenue": 2343278.36,
+        "total_sent": 467792,
+        "total_delivered": 396870,
+        "total_campaigns": 73,
+        "avg_read_rate": 54.5
       }
     },
     "feb_2026": {
       "name": "Feb 2026",
+      "key": "feb_2026",
+      "year": 2026,
+      "month_num": 2,
       "campaigns": [
         {
           "name": "GMT+FIT 2nd Feb Campaign at 5999",
@@ -1983,25 +1994,21 @@
           "read_rate": "Read Rate",
           "revenue": "Amount on 0th Day",
           "orders": "Orders Placed"
-        },
-        "unmapped_headers": [
-          "CTA",
-          "Read",
-          "Order/Read",
-          "TemplateName",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          ""
-        ]
+        }
+      },
+      "summary": {
+        "total_revenue": 1531539.65,
+        "total_sent": 395184,
+        "total_delivered": 327175,
+        "total_campaigns": 63,
+        "avg_read_rate": 45.14
       }
     },
     "march_2026": {
       "name": "March 2026",
+      "key": "march_2026",
+      "year": 2026,
+      "month_num": 3,
       "campaigns": [
         {
           "name": "M1-M2 Quiz Leads GMT +FIT at 5999 - 3rd March 3",
@@ -2404,17 +2411,14 @@
           "clicks": "Clicked count",
           "click_rate": "Clicked rate",
           "orders": "Order Count"
-        },
-        "unmapped_headers": [
-          "S. No.",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          ""
-        ]
+        }
+      },
+      "summary": {
+        "total_revenue": 284741.2,
+        "total_sent": 177655,
+        "total_delivered": 143378,
+        "total_campaigns": 26,
+        "avg_read_rate": 44.26
       }
     }
   }
