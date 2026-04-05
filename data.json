@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-05T19:50:17.634005Z",
+  "last_updated": "2026-04-05T21:37:54.897599Z",
   "sheet_id": "16FAQeJ50cSY6GFjC_FXANv0CoqV0dbzD90rSPxLQuj8",
   "sheet_order": [
     "jan_2026",
@@ -64,7 +64,7 @@
           "delivered": 7956,
           "read": 0,
           "read_rate": 59.07,
-          "revenue": 17749.0,
+          "revenue": 0.0,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 3
@@ -176,7 +176,7 @@
           "delivered": 4455,
           "read": 0,
           "read_rate": 66.85,
-          "revenue": 6499.0,
+          "revenue": 0.0,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 1
@@ -316,7 +316,7 @@
           "delivered": 1700,
           "read": 0,
           "read_rate": 55.94,
-          "revenue": 12998.0,
+          "revenue": 6499.0,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 2
@@ -330,7 +330,7 @@
           "delivered": 185,
           "read": 0,
           "read_rate": 88.11,
-          "revenue": 66498.0,
+          "revenue": 22166.0,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 3
@@ -344,7 +344,7 @@
           "delivered": 8714,
           "read": 0,
           "read_rate": 65.03,
-          "revenue": 78496.0,
+          "revenue": 62796.8,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 5
@@ -358,7 +358,7 @@
           "delivered": 7664,
           "read": 0,
           "read_rate": 58.98,
-          "revenue": 84594.0,
+          "revenue": 28198.0,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 9
@@ -372,7 +372,7 @@
           "delivered": 8862,
           "read": 0,
           "read_rate": 62.63,
-          "revenue": 11998.0,
+          "revenue": 0.0,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 2
@@ -386,7 +386,7 @@
           "delivered": 7773,
           "read": 0,
           "read_rate": 57.8,
-          "revenue": 78095.0,
+          "revenue": 48809.38,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 8
@@ -568,7 +568,7 @@
           "delivered": 7702,
           "read": 0,
           "read_rate": 58.28,
-          "revenue": 33464.1,
+          "revenue": 0.0,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 4
@@ -596,7 +596,7 @@
           "delivered": 10319,
           "read": 0,
           "read_rate": 56.05,
-          "revenue": 94503.1,
+          "revenue": 87233.63,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 13
@@ -610,7 +610,7 @@
           "delivered": 1625,
           "read": 0,
           "read_rate": 51.26,
-          "revenue": 52500.0,
+          "revenue": 42000.0,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 5
@@ -624,7 +624,7 @@
           "delivered": 6284,
           "read": 0,
           "read_rate": 45.64,
-          "revenue": 11999.0,
+          "revenue": 0.0,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 2
@@ -638,7 +638,7 @@
           "delivered": 3661,
           "read": 0,
           "read_rate": 45.32,
-          "revenue": 6000.0,
+          "revenue": 0.0,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 1
@@ -708,7 +708,7 @@
           "delivered": 14223,
           "read": 0,
           "read_rate": 49.81,
-          "revenue": 22369.1,
+          "revenue": 19173.51,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 7
@@ -792,7 +792,7 @@
           "delivered": 2421,
           "read": 0,
           "read_rate": 45.31,
-          "revenue": 5999.0,
+          "revenue": 0.0,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 1
@@ -806,7 +806,7 @@
           "delivered": 2310,
           "read": 0,
           "read_rate": 45.63,
-          "revenue": 73000.0,
+          "revenue": 36500.0,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 4
@@ -820,7 +820,7 @@
           "delivered": 2266,
           "read": 0,
           "read_rate": 48.32,
-          "revenue": 59000.0,
+          "revenue": 19666.67,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 3
@@ -862,7 +862,7 @@
           "delivered": 3103,
           "read": 0,
           "read_rate": 45.15,
-          "revenue": 19746.0,
+          "revenue": 0.0,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 4
@@ -890,7 +890,7 @@
           "delivered": 11115,
           "read": 0,
           "read_rate": 48.39,
-          "revenue": 54495.0,
+          "revenue": 45412.5,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 6
@@ -904,7 +904,7 @@
           "delivered": 11352,
           "read": 0,
           "read_rate": 46.51,
-          "revenue": 15999.0,
+          "revenue": 7999.5,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 2
@@ -946,7 +946,7 @@
           "delivered": 9136,
           "read": 0,
           "read_rate": 43.13,
-          "revenue": 20247.0,
+          "revenue": 13498.0,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 3
@@ -974,7 +974,7 @@
           "delivered": 13637,
           "read": 0,
           "read_rate": 46.26,
-          "revenue": 26092.0,
+          "revenue": 10436.8,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 5
@@ -988,7 +988,7 @@
           "delivered": 3285,
           "read": 0,
           "read_rate": 40.0,
-          "revenue": 17996.0,
+          "revenue": 0.0,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 3
@@ -1016,7 +1016,7 @@
           "delivered": 11659,
           "read": 0,
           "read_rate": 43.53,
-          "revenue": 106235.0,
+          "revenue": 91058.57,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 14
@@ -1030,7 +1030,7 @@
           "delivered": 16213,
           "read": 0,
           "read_rate": 47.57,
-          "revenue": 26092.0,
+          "revenue": 15655.2,
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 5
@@ -1047,6 +1047,8 @@
           "Read Rate",
           "Original_Orders",
           "Unique_Orders",
+          "Revenue",
+          "",
           "Original_Revenue",
           "Unique_Revenue",
           "Revenue_Lost_to_Dupes",
@@ -1059,12 +1061,12 @@
           "sent": "Sent",
           "delivered": "Delivered",
           "read_rate": "Read Rate",
-          "revenue": "Original_Revenue",
+          "revenue": "Revenue",
           "orders": "Original_Orders"
         }
       },
       "summary": {
-        "total_revenue": 2343278.36,
+        "total_revenue": 1897718.62,
         "total_sent": 467792,
         "total_delivered": 396870,
         "total_campaigns": 73,
@@ -1972,7 +1974,7 @@
           "Read",
           "Read Rate",
           "Orders Placed",
-          "Amount on 0th Day",
+          "Revenue",
           "Order/Read",
           "TemplateName",
           "",
@@ -1992,7 +1994,7 @@
           "sent": "Sent",
           "delivered": "Delivered",
           "read_rate": "Read Rate",
-          "revenue": "Amount on 0th Day",
+          "revenue": "Revenue",
           "orders": "Orders Placed"
         }
       },
@@ -2404,7 +2406,7 @@
         },
         {
           "name": "RnR Leads Free Consult 20th Mar",
-          "team": "Unknown",
+          "team": "Shopify Leads",
           "date": "2026-03-20",
           "cohort": "Untagged",
           "sent": 3519,
@@ -2432,7 +2434,7 @@
         },
         {
           "name": "NIP Campaign Sova X at 9999 21st march",
-          "team": "Unknown",
+          "team": "Upsell NIP",
           "date": "2026-03-21",
           "cohort": "Untagged",
           "sent": 382,
@@ -2446,7 +2448,7 @@
         },
         {
           "name": "Spin the Wheel M0-M12 Expert and shopify",
-          "team": "Unknown",
+          "team": "Expert Unconverted + Shopify",
           "date": "2026-03-21",
           "cohort": "Untagged",
           "sent": 0,
@@ -2460,7 +2462,7 @@
         },
         {
           "name": "Assessment RnR Leads 49 Discovery Call",
-          "team": "Unknown",
+          "team": "Assessment Leads",
           "date": "2026-03-22",
           "cohort": "Untagged",
           "sent": 488,
@@ -2544,7 +2546,7 @@
         },
         {
           "name": "Webinar 28th March Onboarding Message",
-          "team": "Unknown",
+          "team": "Assessment + Webinar + Quiz Leads",
           "date": "2026-03-27",
           "cohort": "Untagged",
           "sent": 24644,
@@ -2558,7 +2560,7 @@
         },
         {
           "name": "Webinar 28th March - 28th March Reminder",
-          "team": "Unknown",
+          "team": "Assessment + Webinar + Quiz Leads",
           "date": "2026-03-27",
           "cohort": "Untagged",
           "sent": 0,
@@ -2572,7 +2574,7 @@
         },
         {
           "name": "Post Webinar Shopify Offer 28 March",
-          "team": "Unknown",
+          "team": "Assessment + Webinar + Quiz Leads",
           "date": "2026-03-28",
           "cohort": "Untagged",
           "sent": 4681,
@@ -2600,7 +2602,7 @@
         },
         {
           "name": "Unconverted Expert Post Webinar 28th march",
-          "team": "Unknown",
+          "team": "Expert Unconverted",
           "date": "2026-03-28",
           "cohort": "Untagged",
           "sent": 3160,
@@ -2614,7 +2616,7 @@
         },
         {
           "name": "GMT at 5999 Shopify Leads",
-          "team": "Unknown",
+          "team": "Shopify Leads",
           "date": "2026-03-29",
           "cohort": "Untagged",
           "sent": 15416,
@@ -2628,7 +2630,7 @@
         },
         {
           "name": "Unconverted Experts M0-M6 GMT at 5999",
-          "team": "Unknown",
+          "team": "Expert Unconverted",
           "date": "2026-03-29",
           "cohort": "Untagged",
           "sent": 4590,
@@ -2656,7 +2658,7 @@
         },
         {
           "name": "Add on FIT at 2999",
-          "team": "Unknown",
+          "team": "Shopify Converted Leads",
           "date": "2026-03-30",
           "cohort": "Untagged",
           "sent": 50,
@@ -2670,7 +2672,7 @@
         },
         {
           "name": "Add on FIT at 30th March",
-          "team": "Unknown",
+          "team": "Shopify Leads",
           "date": "2026-03-31",
           "cohort": "Untagged",
           "sent": 50,
@@ -2684,7 +2686,7 @@
         },
         {
           "name": "GMT at 5999 Shopify Leads 30th March",
-          "team": "Unknown",
+          "team": "Shopify Leads",
           "date": "2026-03-30",
           "cohort": "Untagged",
           "sent": 4647,
@@ -2698,7 +2700,7 @@
         },
         {
           "name": "OTC Bought GMT at 5499",
-          "team": "Unknown",
+          "team": "OTC Customers",
           "date": "2026-03-30",
           "cohort": "Untagged",
           "sent": 766,
@@ -2712,7 +2714,7 @@
         },
         {
           "name": "Shopify Leads GMT at 5499 final Call",
-          "team": "Unknown",
+          "team": "Shopify Leads",
           "date": "2026-03-30",
           "cohort": "Untagged",
           "sent": 6736,
@@ -2726,7 +2728,7 @@
         },
         {
           "name": "Shopify Leads at 5499",
-          "team": "Unknown",
+          "team": "Shopify Leads",
           "date": "2026-03-30",
           "cohort": "Untagged",
           "sent": 8111,
@@ -2740,7 +2742,7 @@
         },
         {
           "name": "Unconverted Experts GMT at 5499 30th March",
-          "team": "Unknown",
+          "team": "Expert Unconverted",
           "date": "2026-03-30",
           "cohort": "Untagged",
           "sent": 1795,
@@ -2754,7 +2756,7 @@
         },
         {
           "name": "Unconverted Experts M0-M12 30th March",
-          "team": "Unknown",
+          "team": "Expert Unconverted",
           "date": "2026-03-30",
           "cohort": "Untagged",
           "sent": 4708,
@@ -2768,7 +2770,7 @@
         },
         {
           "name": "Unconverted Experts M0-M6 GMT at 5499 final Call",
-          "team": "Unknown",
+          "team": "Expert Unconverted",
           "date": "2026-03-31",
           "cohort": "Untagged",
           "sent": 1819,
