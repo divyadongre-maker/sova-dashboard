@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-09T06:06:14.610478Z",
+  "last_updated": "2026-04-09T16:48:54.756331Z",
   "sheet_id": "16FAQeJ50cSY6GFjC_FXANv0CoqV0dbzD90rSPxLQuj8",
   "sheet_order": [
     "jan_2026",
@@ -2013,20 +2013,6 @@
       "month_num": 3,
       "campaigns": [
         {
-          "name": "M1-M2 Quiz Leads GMT +FIT at 5999 - 3rd March 3",
-          "team": "Quiz",
-          "date": "",
-          "cohort": "Quiz Leads M1-M2",
-          "sent": 14329,
-          "delivered": 11798,
-          "read": 5715,
-          "read_rate": 48.44,
-          "revenue": 5999.0,
-          "clicks": 49,
-          "click_rate": 0.42,
-          "orders": 1
-        },
-        {
           "name": "M1-M2 Leads GMT +FIT at 5999",
           "team": "Fresh",
           "date": "",
@@ -2038,35 +2024,7 @@
           "revenue": 18771.1,
           "clicks": 88,
           "click_rate": 1.29,
-          "orders": 0
-        },
-        {
-          "name": "GMT + FIT at 6499 M1-M9 Shopify",
-          "team": "Fresh",
-          "date": "",
-          "cohort": "Shopify Leads M1-M9",
-          "sent": 8570,
-          "delivered": 4347,
-          "read": 2410,
-          "read_rate": 0.0,
-          "revenue": 6499.0,
-          "clicks": 0,
-          "click_rate": 0.0,
-          "orders": 1
-        },
-        {
-          "name": "M1-M9 Campaign SHopify GMT at 6499",
-          "team": "Fresh",
-          "date": "",
-          "cohort": "Shopify Leads M1-M9",
-          "sent": 8582,
-          "delivered": 6807,
-          "read": 2840,
-          "read_rate": 41.72,
-          "revenue": 6499.0,
-          "clicks": 0,
-          "click_rate": 0.0,
-          "orders": 1
+          "orders": 5
         },
         {
           "name": "Upsell Campaign Sova X + Retest at 25,000",
@@ -2083,34 +2041,6 @@
           "orders": 1
         },
         {
-          "name": "M1-M9 Campaign SHopify GMT + FIT at 6499",
-          "team": "Fresh",
-          "date": "",
-          "cohort": "Shopify Leads M1-M9",
-          "sent": 8578,
-          "delivered": 6780,
-          "read": 2641,
-          "read_rate": 38.95,
-          "revenue": 6748.0,
-          "clicks": 0,
-          "click_rate": 0.0,
-          "orders": 2
-        },
-        {
-          "name": "Quiz Leads Free Consult",
-          "team": "Quiz",
-          "date": "",
-          "cohort": "M0 Quiz Leads",
-          "sent": 6302,
-          "delivered": 5471,
-          "read": 3078,
-          "read_rate": 56.26,
-          "revenue": 0.0,
-          "clicks": 101,
-          "click_rate": 1.85,
-          "orders": 55
-        },
-        {
           "name": "GMT + FIT M1-M9 Shopify at 6499",
           "team": "Fresh",
           "date": "",
@@ -2123,20 +2053,6 @@
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 4
-        },
-        {
-          "name": "Unconverted Experts M0-M9 GMT + FIT at 6499",
-          "team": "Expert Unconverted",
-          "date": "",
-          "cohort": "Expert Unconverted M0-M6",
-          "sent": 3218,
-          "delivered": 2670,
-          "read": 1040,
-          "read_rate": 38.95,
-          "revenue": 6499.0,
-          "clicks": 0,
-          "click_rate": 0.0,
-          "orders": 1
         },
         {
           "name": "Webinar Reminder Msg Quiz Leads",
@@ -2153,20 +2069,6 @@
           "orders": 21
         },
         {
-          "name": "Post Webinar Offer Quiz Leads",
-          "team": "Quiz",
-          "date": "",
-          "cohort": "Quiz Leads M0-M1",
-          "sent": 8253,
-          "delivered": 7793,
-          "read": 3977,
-          "read_rate": 51.03,
-          "revenue": 249.0,
-          "clicks": 0,
-          "click_rate": 0.0,
-          "orders": 1
-        },
-        {
           "name": "Post Webinar offer RnR Leads 7th Mar",
           "team": "Fresh",
           "date": "",
@@ -2179,34 +2081,6 @@
           "clicks": 0,
           "click_rate": 0.0,
           "orders": 3
-        },
-        {
-          "name": "Quiz Leads Consult at 99",
-          "team": "Quiz",
-          "date": "",
-          "cohort": "M0 Quiz Leads",
-          "sent": 10119,
-          "delivered": 2554,
-          "read": 1681,
-          "read_rate": 65.82,
-          "revenue": 2475.0,
-          "clicks": 34,
-          "click_rate": 1.33,
-          "orders": 25
-        },
-        {
-          "name": "Expert Overall M0-M6 SDT",
-          "team": "Expert Unconverted",
-          "date": "",
-          "cohort": "Expert Unconverted M0-M6",
-          "sent": 2614,
-          "delivered": 2254,
-          "read": 845,
-          "read_rate": 37.49,
-          "revenue": 7999.0,
-          "clicks": 0,
-          "click_rate": 0.0,
-          "orders": 2
         },
         {
           "name": "Match Retargeting SDT - 4999",
@@ -2223,20 +2097,6 @@
           "orders": 2
         },
         {
-          "name": "Upsell Campaign Testimonial",
-          "team": "Upsell",
-          "date": "",
-          "cohort": "M3-M8 Upsell",
-          "sent": 627,
-          "delivered": 603,
-          "read": 336,
-          "read_rate": 55.72,
-          "revenue": 8000.0,
-          "clicks": 14,
-          "click_rate": 2.32,
-          "orders": 0
-        },
-        {
           "name": "Case of the week - GMT + Nutrition Plan at 7,999",
           "team": "Fresh",
           "date": "",
@@ -2248,119 +2108,7 @@
           "revenue": 41545.0,
           "clicks": 41,
           "click_rate": 0.44,
-          "orders": 0
-        },
-        {
-          "name": "Upsell Campaign Testimonial + Sova X at 10,999  - 13th March",
-          "team": "Upsell",
-          "date": "",
-          "cohort": "M3-M8 Upsell",
-          "sent": 1945,
-          "delivered": 1834,
-          "read": 718,
-          "read_rate": 39.15,
-          "revenue": 9000.0,
-          "clicks": 7,
-          "click_rate": 0.38,
-          "orders": 0
-        },
-        {
-          "name": "Webinar M0-M1 Quiz Leads and Assessment DC Leads",
-          "team": "Quiz",
-          "date": "",
-          "cohort": "Untagged",
-          "sent": 17714,
-          "delivered": 16240,
-          "read": 7089,
-          "read_rate": 43.65,
-          "revenue": 49.0,
-          "clicks": 0,
-          "click_rate": 0.0,
-          "orders": 1
-        },
-        {
-          "name": "Webinar 14th Feb QuizLeads - 13th March 13 at 8:53:18 PM",
-          "team": "Quiz",
-          "date": "",
-          "cohort": "Quiz Leads M0-M1",
-          "sent": 14193,
-          "delivered": 12113,
-          "read": 4952,
-          "read_rate": 40.88,
-          "revenue": 0.0,
-          "clicks": 58,
-          "click_rate": 0.48,
-          "orders": 0
-        },
-        {
-          "name": "Quiz leads M1 Post Webinar Offer 14th feb",
-          "team": "Quiz",
-          "date": "",
-          "cohort": "M1 Quiz Lead",
-          "sent": 9595,
-          "delivered": 8175,
-          "read": 3683,
-          "read_rate": 45.05,
-          "revenue": 0.0,
-          "clicks": 183,
-          "click_rate": 2.24,
-          "orders": 0
-        },
-        {
-          "name": "Quiz leads M1 Post Webinar Offer 14th feb Final",
-          "team": "Quiz",
-          "date": "",
-          "cohort": "M1 Quiz Lead",
-          "sent": 10107,
-          "delivered": 8190,
-          "read": 3056,
-          "read_rate": 37.31,
-          "revenue": 0.0,
-          "clicks": 12,
-          "click_rate": 0.15,
-          "orders": 0
-        },
-        {
-          "name": "Webinar 14th Feb Assessment - DC and RnR",
-          "team": "Upsell",
-          "date": "",
-          "cohort": "Webinar Assessment - DC and RnR Leads",
-          "sent": 1182,
-          "delivered": 1079,
-          "read": 471,
-          "read_rate": 43.65,
-          "revenue": 7500.0,
-          "clicks": 6,
-          "click_rate": 0.56,
-          "orders": 0
-        },
-        {
-          "name": "Upsell Campaign Sova X + 1 month Nutrition Plan at 14,799",
-          "team": "Upsell",
-          "date": "",
-          "cohort": "M3-M8 Upsell",
-          "sent": 672,
-          "delivered": 621,
-          "read": 243,
-          "read_rate": 39.13,
-          "revenue": 0.0,
-          "clicks": 12,
-          "click_rate": 1.93,
-          "orders": 0
-        },
-        {
-          "name": "GMT Add on offer at 2999 14th mar",
-          "team": "Fresh",
-          "date": "",
-          "cohort": "Shopify M0 Add on",
-          "sent": 8,
-          "delivered": 8,
-          "read": 3,
-          "read_rate": 37.5,
-          "revenue": 3000.0,
-          "clicks": 0,
-          "click_rate": 0.0,
-          "orders": 1
+          "orders": 8
         },
         {
           "name": "GMT + FIber Broadcast 18th Feb",
@@ -2374,7 +2122,7 @@
           "revenue": 36948.0,
           "clicks": 0,
           "click_rate": 0.0,
-          "orders": 0
+          "orders": 8
         },
         {
           "name": "Upsell Campaign 19th Feb",
@@ -2388,77 +2136,7 @@
           "revenue": 39799.0,
           "clicks": 0,
           "click_rate": 0.0,
-          "orders": 0
-        },
-        {
-          "name": "Quiz Leads M1-M3 20th March Discovery Call",
-          "team": "Quiz",
-          "date": "2026-03-20",
-          "cohort": "M1-M3 Quiz Lead",
-          "sent": 5846,
-          "delivered": 5734,
-          "read": 2484,
-          "read_rate": 43.32,
-          "revenue": 98.0,
-          "clicks": 0,
-          "click_rate": 0.0,
-          "orders": 0
-        },
-        {
-          "name": "RnR Leads Free Consult 20th Mar",
-          "team": "Shopify Leads",
-          "date": "2026-03-20",
-          "cohort": "Untagged",
-          "sent": 3519,
-          "delivered": 3351,
-          "read": 1291,
-          "read_rate": 38.53,
-          "revenue": 0.0,
-          "clicks": 0,
-          "click_rate": 0.0,
-          "orders": 0
-        },
-        {
-          "name": "Webinar Quiz Leads 21st",
-          "team": "Quiz",
-          "date": "2026-03-20",
-          "cohort": "M1 Quiz Lead",
-          "sent": 10622,
-          "delivered": 9937,
-          "read": 5350,
-          "read_rate": 53.84,
-          "revenue": 0.0,
-          "clicks": 0,
-          "click_rate": 0.0,
-          "orders": 0
-        },
-        {
-          "name": "NIP Campaign Sova X at 9999 21st march",
-          "team": "Upsell NIP",
-          "date": "2026-03-21",
-          "cohort": "Untagged",
-          "sent": 382,
-          "delivered": 377,
-          "read": 224,
-          "read_rate": 59.42,
-          "revenue": 9000.0,
-          "clicks": 0,
-          "click_rate": 0.0,
-          "orders": 0
-        },
-        {
-          "name": "Spin the Wheel M0-M12 Expert and shopify",
-          "team": "Expert Unconverted + Shopify",
-          "date": "2026-03-21",
-          "cohort": "Untagged",
-          "sent": 0,
-          "delivered": 0,
-          "read": 0,
-          "read_rate": 0.0,
-          "revenue": 7999.0,
-          "clicks": 0,
-          "click_rate": 0.0,
-          "orders": 0
+          "orders": 2
         },
         {
           "name": "Assessment RnR Leads 49 Discovery Call",
@@ -2472,21 +2150,7 @@
           "revenue": 26000.0,
           "clicks": 0,
           "click_rate": 0.0,
-          "orders": 0
-        },
-        {
-          "name": "Quiz Leads 49 Consults",
-          "team": "Quiz",
-          "date": "2026-03-25",
-          "cohort": "M1 Quiz Lead",
-          "sent": 6718,
-          "delivered": 6607,
-          "read": 2926,
-          "read_rate": 44.29,
-          "revenue": 7146.0,
-          "clicks": 0,
-          "click_rate": 0.0,
-          "orders": 0
+          "orders": 1
         },
         {
           "name": "Upsell Combo 25th Dec",
@@ -2500,21 +2164,7 @@
           "revenue": 83839.0,
           "clicks": 0,
           "click_rate": 0.0,
-          "orders": 0
-        },
-        {
-          "name": "Upsell Campaign 26th March Combo",
-          "team": "Upsell",
-          "date": "2026-03-26",
-          "cohort": "Untagged",
-          "sent": 389,
-          "delivered": 378,
-          "read": 221,
-          "read_rate": 58.47,
-          "revenue": 7000.0,
-          "clicks": 0,
-          "click_rate": 0.0,
-          "orders": 0
+          "orders": 5
         },
         {
           "name": "Upsell Renewal NIP Campaign 26th March",
@@ -2528,7 +2178,7 @@
           "revenue": 12098.0,
           "clicks": 0,
           "click_rate": 0.0,
-          "orders": 0
+          "orders": 1
         },
         {
           "name": "Upsell Campaign 27th March Combo Offer",
@@ -2542,21 +2192,7 @@
           "revenue": 77799.0,
           "clicks": 0,
           "click_rate": 0.0,
-          "orders": 0
-        },
-        {
-          "name": "Webinar 28th March Onboarding Message",
-          "team": "Assessment + Webinar + Quiz Leads",
-          "date": "2026-03-27",
-          "cohort": "Untagged",
-          "sent": 24644,
-          "delivered": 20467,
-          "read": 8436,
-          "read_rate": 41.22,
-          "revenue": 0.0,
-          "clicks": 0,
-          "click_rate": 0.0,
-          "orders": 0
+          "orders": 5
         },
         {
           "name": "Webinar 28th March - 28th March Reminder",
@@ -2573,34 +2209,6 @@
           "orders": 22
         },
         {
-          "name": "Post Webinar Shopify Offer 28 March",
-          "team": "Assessment + Webinar + Quiz Leads",
-          "date": "2026-03-28",
-          "cohort": "Untagged",
-          "sent": 4681,
-          "delivered": 4413,
-          "read": 1883,
-          "read_rate": 42.67,
-          "revenue": 0.0,
-          "clicks": 0,
-          "click_rate": 0.0,
-          "orders": 0
-        },
-        {
-          "name": "Quiz Leads M0 GMT at 5999 Post Webinar",
-          "team": "Quiz",
-          "date": "2026-03-28",
-          "cohort": "M0 Quiz Lead",
-          "sent": 13809,
-          "delivered": 13019,
-          "read": 5800,
-          "read_rate": 44.55,
-          "revenue": 6996.0,
-          "clicks": 0,
-          "click_rate": 0.0,
-          "orders": 0
-        },
-        {
           "name": "Unconverted Expert Post Webinar 28th march",
           "team": "Expert Unconverted",
           "date": "2026-03-28",
@@ -2612,7 +2220,7 @@
           "revenue": 16497.0,
           "clicks": 0,
           "click_rate": 0.0,
-          "orders": 0
+          "orders": 4
         },
         {
           "name": "GMT at 5999 Shopify Leads",
@@ -2626,7 +2234,7 @@
           "revenue": 50342.0,
           "clicks": 0,
           "click_rate": 0.0,
-          "orders": 0
+          "orders": 10
         },
         {
           "name": "Unconverted Experts M0-M6 GMT at 5999",
@@ -2640,7 +2248,7 @@
           "revenue": 40798.0,
           "clicks": 0,
           "click_rate": 0.0,
-          "orders": 0
+          "orders": 3
         },
         {
           "name": "Quiz Leads Campaign 30th march GMT at 5999",
@@ -2657,20 +2265,6 @@
           "orders": 2
         },
         {
-          "name": "Add on FIT at 2999",
-          "team": "Shopify Converted Leads",
-          "date": "2026-03-30",
-          "cohort": "Untagged",
-          "sent": 50,
-          "delivered": 50,
-          "read": 31,
-          "read_rate": 62.0,
-          "revenue": 0.0,
-          "clicks": 0,
-          "click_rate": 0.0,
-          "orders": 0
-        },
-        {
           "name": "Add on FIT at 30th March",
           "team": "Shopify Leads",
           "date": "2026-03-31",
@@ -2682,7 +2276,7 @@
           "revenue": 42596.0,
           "clicks": 0,
           "click_rate": 0.0,
-          "orders": 0
+          "orders": 4
         },
         {
           "name": "GMT at 5999 Shopify Leads 30th March",
@@ -2693,24 +2287,10 @@
           "delivered": 4292,
           "read": 1716,
           "read_rate": 39.98,
-          "revenue": 48349.0,
+          "revenue": 30352.0,
           "clicks": 0,
           "click_rate": 0.0,
-          "orders": 0
-        },
-        {
-          "name": "OTC Bought GMT at 5499",
-          "team": "OTC Customers",
-          "date": "2026-03-30",
-          "cohort": "Untagged",
-          "sent": 766,
-          "delivered": 734,
-          "read": 311,
-          "read_rate": 42.37,
-          "revenue": 8610.0,
-          "clicks": 0,
-          "click_rate": 0.0,
-          "orders": 0
+          "orders": 5
         },
         {
           "name": "Shopify Leads GMT at 5499 final Call",
@@ -2721,10 +2301,10 @@
           "delivered": 6079,
           "read": 1917,
           "read_rate": 31.53,
-          "revenue": 0.0,
+          "revenue": 37298.0,
           "clicks": 0,
           "click_rate": 0.0,
-          "orders": 0
+          "orders": 3
         },
         {
           "name": "Shopify Leads at 5499",
@@ -2735,10 +2315,10 @@
           "delivered": 7529,
           "read": 2873,
           "read_rate": 38.16,
-          "revenue": 0.0,
+          "revenue": 59846.0,
           "clicks": 0,
           "click_rate": 0.0,
-          "orders": 0
+          "orders": 7
         },
         {
           "name": "Unconverted Experts GMT at 5499 30th March",
@@ -2749,10 +2329,10 @@
           "delivered": 1679,
           "read": 697,
           "read_rate": 41.51,
-          "revenue": 5499.0,
+          "revenue": 60191.0,
           "clicks": 0,
           "click_rate": 0.0,
-          "orders": 0
+          "orders": 11
         },
         {
           "name": "Unconverted Experts M0-M12 30th March",
@@ -2763,10 +2343,10 @@
           "delivered": 4436,
           "read": 1682,
           "read_rate": 37.92,
-          "revenue": 45493.0,
+          "revenue": 21997.0,
           "clicks": 0,
           "click_rate": 0.0,
-          "orders": 0
+          "orders": 4
         },
         {
           "name": "Unconverted Experts M0-M6 GMT at 5499 final Call",
@@ -2777,10 +2357,10 @@
           "delivered": 1660,
           "read": 555,
           "read_rate": 33.43,
-          "revenue": 0.0,
+          "revenue": 32693.0,
           "clicks": 0,
           "click_rate": 0.0,
-          "orders": 0
+          "orders": 7
         },
         {
           "name": "Upsell Campaign 30th March Sova X at 10,999",
@@ -2791,10 +2371,10 @@
           "delivered": 694,
           "read": 321,
           "read_rate": 46.25,
-          "revenue": 468685.0,
+          "revenue": 277889.0,
           "clicks": 0,
           "click_rate": 0.0,
-          "orders": 0
+          "orders": 13
         },
         {
           "name": "Upsell Campaign Oct-Dec 2025 Sova X at 9,999",
@@ -2805,10 +2385,10 @@
           "delivered": 1761,
           "read": 541,
           "read_rate": 30.72,
-          "revenue": 28999.0,
+          "revenue": 34999.0,
           "clicks": 0,
           "click_rate": 0.0,
-          "orders": 0
+          "orders": 4
         },
         {
           "name": "Upsell NIP Campaign 31st March",
@@ -2822,7 +2402,7 @@
           "revenue": 29297.0,
           "clicks": 0,
           "click_rate": 0.0,
-          "orders": 0
+          "orders": 3
         }
       ],
       "schema": {
@@ -2864,11 +2444,11 @@
         }
       },
       "summary": {
-        "total_revenue": 1418372.2,
-        "total_sent": 305143,
-        "total_delivered": 257603,
-        "total_campaigns": 58,
-        "avg_read_rate": 45.59
+        "total_revenue": 1259247.2,
+        "total_sent": 107109,
+        "total_delivered": 93199,
+        "total_campaigns": 28,
+        "avg_read_rate": 44.99
       }
     }
   }
